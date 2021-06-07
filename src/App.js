@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 
 import './App.css';
 
-import { applyNumber, APPLY_NUMBER } from './actions';
+import { applyNumber, changeOperation, clearDisplay } from './actions';
 import TotalDisplay from './components/TotalDisplay';
 import CalcButton from './components/CalcButton';
 import reducer, { initialState } from './reducers';
@@ -11,6 +11,12 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
   const setNum = (num) => {
     dispatch(applyNumber(num))
+  }
+  const setOperator = (operator) => {
+    dispatch(changeOperation(operator))
+  }
+  const clearDspl = () => {
+    dispatch(clearDisplay());
   }
   
   return (
@@ -72,13 +78,21 @@ function App() {
             </div>
 
             <div className="row">
-              <CalcButton value={"+"}/>
-              <CalcButton value={"*"}/>
-              <CalcButton value={"-"}/>
+              <CalcButton onClick={() => {
+                setOperator("+")
+              }} value={"+"}/>
+              <CalcButton onClick={() => {
+                setOperator("*")
+              }} value={"*"}/>
+              <CalcButton onClick={() => {
+                setOperator("-")
+              }} value={"-"}/>
             </div>
 
             <div className="row ce_button">
-              <CalcButton value={"CE"}/>
+              <CalcButton onClick={() => {
+                clearDspl()
+              }} value={"CE"}/>
             </div>
 
           </form>
