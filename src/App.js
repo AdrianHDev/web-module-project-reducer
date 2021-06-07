@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 
 import './App.css';
 
+import { applyMemory, applyNumber, changeOperation, clearDisplay, clearMemory, setMemory } from './actions';
 import TotalDisplay from './components/TotalDisplay';
 import CalcButton from './components/CalcButton';
+import reducer, { initialState } from './reducers';
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState)
 
+  const setNum = (num) => {
+    dispatch(applyNumber(num))
+  }
+  const setOperator = (operator) => {
+    dispatch(changeOperation(operator))
+  }
+  const clearDspl = () => {
+    dispatch(clearDisplay());
+  }
+  const setMem = () => {
+    dispatch(setMemory());
+  }
+  const applyMem = () => {
+    dispatch(applyMemory());
+  }
+  const clearMem = () => {
+    dispatch(clearMemory());
+  }
+  
   return (
     <div className="App">
       <nav className="navbar navbar-dark bg-dark">
@@ -17,44 +39,76 @@ function App() {
         <div className="col-md-12 d-flex justify-content-center">
           <form name="Cal">
             
-            <TotalDisplay value={0}/>
+            <TotalDisplay value={state.total}/>
             <div className="row details">
-              <span id="operation"><b>Operation:</b> X</span>
-              <span id="memory"><b>Memory:</b> 0</span>
+              <span id="operation"><b>Operation:</b> {state.operation}</span>
+              <span id="memory"><b>Memory:</b> {state.memory}</span>
             </div>
             
             <div className="row">
-              <CalcButton value={"M+"}/>
-              <CalcButton value={"MR"}/>
-              <CalcButton value={"MC"}/>
+              <CalcButton onClick={() => {
+                setMem();
+              }} value={"M+"}/>
+              <CalcButton onClick={() => {
+                applyMem();
+              }} value={"MR"}/>
+              <CalcButton onClick={() => {
+                clearMem();
+              }} value={"MC"}/>
             </div>
 
             <div className="row">
-              <CalcButton value={1}/>
-              <CalcButton value={2}/>
-              <CalcButton value={3}/>
+              <CalcButton onClick={() => {
+                setNum(1);
+              }} value={1}/>
+              <CalcButton onClick={() => {
+                setNum(2);
+              }} value={2}/>
+              <CalcButton onClick={() => {
+                setNum(3);
+              }} value={3}/>
             </div>
 
             <div className="row">
-              <CalcButton value={4}/>
-              <CalcButton value={5}/>
-              <CalcButton value={6}/>
+              <CalcButton onClick={() => {
+                setNum(4);
+              }} value={4}/>
+              <CalcButton onClick={() => {
+                setNum(5);
+              }} value={5}/>
+              <CalcButton onClick={() => {
+                setNum(6);
+              }} value={6}/>
             </div>
 
             <div className="row">
-              <CalcButton value={7}/>
-              <CalcButton value={8}/>
-              <CalcButton value={9}/>
+              <CalcButton onClick={() => {
+                setNum(7);
+              }} value={7}/>
+              <CalcButton onClick={() => {
+                setNum(8);
+              }} value={8}/>
+              <CalcButton onClick={() => {
+                setNum(9);
+              }} value={9}/>
             </div>
 
             <div className="row">
-              <CalcButton value={"+"}/>
-              <CalcButton value={"*"}/>
-              <CalcButton value={"-"}/>
+              <CalcButton onClick={() => {
+                setOperator("+")
+              }} value={"+"}/>
+              <CalcButton onClick={() => {
+                setOperator("*")
+              }} value={"*"}/>
+              <CalcButton onClick={() => {
+                setOperator("-")
+              }} value={"-"}/>
             </div>
 
             <div className="row ce_button">
-              <CalcButton value={"CE"}/>
+              <CalcButton onClick={() => {
+                clearDspl()
+              }} value={"CE"}/>
             </div>
 
           </form>
